@@ -2,41 +2,31 @@ library sieve_lib;
 
 import 'prime_list.dart';
 
-Iterable twoFilter (Iterable iterable){
-  return iterable.where((i) => (i & 1) == 1);
-}
-
-void backFilter (Iterable iterable){
-  if (iterable.isEmpty) {
-    return;
+filter (List numlist, int prime, int cap){
+  for (int i = prime*2; i < cap; i += prime){
+    numlist[i] = 0;
   }
-  else {
-    backFilter(filter(iterable));
+  return;
+}
+
+List sieve(int cap){
+  var init = new List.filled(cap+1, 1);
+  init[0] = 0;
+  init[1] = 0;
+  for (var j = 2; j <= cap; j++){
+    if (init[j] == 1){
+      filter(init, j, cap+1);
+    }
   }
+  return(init);
 }
 
-updatePrimeCount (int n){
-  //prime_list.add(n);
-  print(n);
-}
-
-Iterable filter (Iterable iterable){
-  var n = iterable.first;
-  updatePrimeCount (n);
-  return iterable.where((i) => (i % n) != 0);
-}
-
-Function propagateFactorFunction (Iterable source){
-  var n = source.first;
-  updatePrimeCount(n);
-  Iterable filter(Iterable iterable) {
-    return iterable.where((i) => (i % n) != 0);
+List evaluateSieve (List sievelist){
+  var result = new List();
+  for (int i = 2; i < sievelist.length-1; i++){
+    if (sievelist[i] == 1){
+      result.add(i);
+    }
   }
-  return filter;
-}
-
-Iterable sieve(int cap){
-  var init = new Iterable.generate(cap+2, (i) => i+2);
-  backFilter(twoFilter(init));
-  
+  return(result);
 }

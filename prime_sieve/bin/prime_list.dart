@@ -1,3 +1,3 @@
+import 'sieve_lib.dart';
 
-
-var prime_list = [2];
+var prime_list = [];
